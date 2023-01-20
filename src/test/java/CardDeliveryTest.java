@@ -12,22 +12,24 @@ import java.time.format.DateTimeFormatter;
 
 public class CardDeliveryTest {
 
+    public String generateDate(int addDays, String pattern) {
+        return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    }
 
     @Test
-    void happyPath() throws InterruptedException {
+    void happyPath() {
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петров Андрей");
         $("div [data-test-id='phone'] input").setValue("+79194885621");
         $("[data-test-id='agreement']").click();
         $(".button__text").click();
         $("[data-test-id='notification']").should(visible, Duration.ofSeconds(15));
         $("div.notification__title").shouldHave(exactText("Успешно!"));
-        $("div.notification__content").shouldHave(exactText("Встреча успешно забронирована на " + scheduledDate));
+        $("div.notification__content").shouldHave(exactText("Встреча успешно забронирована на " + generateDate(3, "dd.MM.yyyy")));
     }
 
     @Test
@@ -35,15 +37,14 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Царёва Алёна");
         $("div [data-test-id='phone'] input").setValue("+79194885621");
         $("[data-test-id='agreement']").click();
         $(".button__text").click();
         $("[data-test-id='notification']").should(visible, Duration.ofSeconds(15));
         $("div.notification__title").shouldHave(exactText("Успешно!"));
-        $("div.notification__content").shouldHave(exactText("Встреча успешно забронирована на " + scheduledDate));
+        $("div.notification__content").shouldHave(exactText("Встреча успешно забронирована на " + generateDate(3, "dd.MM.yyyy")));
     }
 
     @Test
@@ -51,16 +52,14 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петров-Водкин Кузьма");
         $("div [data-test-id='phone'] input").setValue("+79194885621");
         $("[data-test-id='agreement']").click();
         $(".button__text").click();
         $("[data-test-id='notification']").should(visible, Duration.ofSeconds(15));
         $("div.notification__title").shouldHave(exactText("Успешно!"));
-        $("div.notification__content").shouldHave(exactText("Встреча успешно забронирована на " + scheduledDate));
+        $("div.notification__content").shouldHave(exactText("Встреча успешно забронирована на " + generateDate(3, "dd.MM.yyyy")));
     }
 
     @Test
@@ -68,23 +67,21 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(4, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петров Андрей");
         $("div [data-test-id='phone'] input").setValue("+79194885621");
         $("[data-test-id='agreement']").click();
         $(".button__text").click();
         $("[data-test-id='notification']").should(visible, Duration.ofSeconds(15));
         $("div.notification__title").shouldHave(exactText("Успешно!"));
-        $("div.notification__content").shouldHave(exactText("Встреча успешно забронирована на " + scheduledDate));
+        $("div.notification__content").shouldHave(exactText("Встреча успешно забронирована на " + generateDate(4, "dd.MM.yyyy")));
     }
 
     @Test
     void shouldNotSendFormWhenInvalidCity() {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Сочи");
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петров Андрей");
         $("div [data-test-id='phone'] input").setValue("+79194885621");
         $("[data-test-id='agreement']").click();
@@ -97,8 +94,7 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(2).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(2, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петров Андрей");
         $("div [data-test-id='phone'] input").setValue("+79194885621");
         $("[data-test-id='agreement']").click();
@@ -111,8 +107,7 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Petrov Andrey");
         $("div [data-test-id='phone'] input").setValue("+79194885621");
         $("[data-test-id='agreement']").click();
@@ -125,8 +120,7 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петр0в Андрей");
         $("div [data-test-id='phone'] input").setValue("+79194885621");
         $("[data-test-id='agreement']").click();
@@ -139,8 +133,7 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петров Андрей");
         $("div [data-test-id='phone'] input").setValue("89194885621");
         $("[data-test-id='agreement']").click();
@@ -153,8 +146,7 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петров Андрей");
         $("div [data-test-id='phone'] input").setValue("+123456789101");
         $("[data-test-id='agreement']").click();
@@ -167,8 +159,7 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петров Андрей");
         $("div [data-test-id='phone'] input").setValue("+1234567890");
         $("[data-test-id='agreement']").click();
@@ -181,8 +172,7 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петров Андрей");
         $("div [data-test-id='phone'] input").setValue("Андрей");
         $("[data-test-id='agreement']").click();
@@ -195,8 +185,7 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петров Андрей");
         $("div [data-test-id='phone'] input").setValue("+79194885621");
         $("[data-test-id='agreement']").click();
@@ -221,8 +210,7 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("");
         $("div [data-test-id='phone'] input").setValue("+79194885621");
         $("[data-test-id='agreement']").click();
@@ -235,8 +223,7 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петров Андрей");
         $("div [data-test-id='phone'] input").setValue("");
         $("[data-test-id='agreement']").click();
@@ -249,16 +236,12 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("div [data-test-id='city'] input").setValue("Санкт-Петербург");
         $("div [data-test-id='date'] input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        String scheduledDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("div [data-test-id='date'] input").setValue(scheduledDate);
+        $("div [data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("div [data-test-id='name'] input").setValue("Петров Андрей");
         $("div [data-test-id='phone'] input").setValue("+79194885621");
         $(".button__text").click();
         $("[data-test-id='agreement'].input_invalid .checkbox__text").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных"));
-
-
     }
-
 }
 
 
